@@ -28,9 +28,10 @@ logoutButton.addEventListener('click', e => {
 //Realtime listener
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
+        console.log(firebaseUser)
         $('#loggedInUserDisplay').text(`${firebaseUser.email}`)
     } else {
-        window.location.replace("file:///Users/Developer/Dropbox/UNC-Project01/stocks/login.html");
+        window.location.replace("../login/login.html");
     }
 })
 
@@ -42,14 +43,6 @@ M.AutoInit();
 
 //EVENT LISTENERS########################################################################
 //#######################################################################################
-
-//Show side panel
-$(document).ready(function () {
-    $('.sidenav').sidenav();
-});
-
-
-
 
 
 //#######################################################################################
