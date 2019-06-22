@@ -8,13 +8,13 @@
 //#######################################################################################
 
 var firebaseConfig = {
-    apiKey: "AIzaSyD0H7-8Kg84ccGyLbj6PUuC7IkeORh6J94",
-    authDomain: "authtest-5430b.firebaseapp.com",
-    databaseURL: "https://authtest-5430b.firebaseio.com",
-    projectId: "authtest-5430b",
+    apiKey: "AIzaSyBAFakhuIZwevHjyCyEFia2vW4j5DPOom4",
+    authDomain: "project1dashboard.firebaseapp.com",
+    databaseURL: "https://project1dashboard.firebaseio.com",
+    projectId: "project1dashboard",
     storageBucket: "",
-    messagingSenderId: "751290791098",
-    appId: "1:751290791098:web:34f86706cbdcc777"
+    messagingSenderId: "629434949340",
+    appId: "1:629434949340:web:5e49ca8bcf7b3cda"
 };
 
 // Initialize Firebase
@@ -23,6 +23,7 @@ firebase.initializeApp(firebaseConfig);
 //Realtime listener
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
+        console.log(firebaseUser)
         window.location.replace("../stocks/stocks.html");
     } else {
         console.log('not logged in')

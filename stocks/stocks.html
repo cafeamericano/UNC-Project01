@@ -41,7 +41,7 @@
             </a></li>
         <br>
         <li><a href="#!"><i class="material-icons">account_circle</i>
-                <div id='loggedInUserDisplay'></div>
+                <div id='loggedInUserEmail'></div>
             </a></li>
         <li><a href="#!"><i class="material-icons">exit_to_app</i>
                 <div id='logoutButton'>Log Out</div>
@@ -56,8 +56,8 @@
         <div class='col s12 m3'>
             <div class="collection" style='border-radius: 25px; opacity: 0.8'>
                 <a href="#!" class="collection-item">Weather</a>
-                <a href="#!" class="collection-item active">News</a>
-                <a href="#!" class="collection-item">Stocks</a>
+                <a href="#!" class="collection-item">News</a>
+                <a href="#!" class="collection-item active">Stocks</a>
                 <a href="#!" class="collection-item">Currency</a>
                 <a href="#!" class="collection-item">Cryptocurrency</a>
             </div>
@@ -67,14 +67,14 @@
         <div class='col s12 m9'>
 
             <div class='row'>
-                <div class='col s12 m5'>
+                <div class='col'>
                     <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
-                    <div class="input-field inline" id='stockAddForm'>
+                    <div class="input-field inline card" id='stockAddForm'
+                        style='padding: 10px; opacity: 0.8; background: black; color: white'>
                         <form id='searchStockForm'>
-                            <input id="stockToSearch" type="text" class="validate">
                             <label for="stockToSearch">Symbol</label>
-                            <span class="helper-text" data-error="wrong" data-success="right">Search a stock's ticker
-                                symbol to see its value.</span>
+                            <input id="stockToSearch" type="text" class="validate" style='color: white'>
+                            <small>Search a stock's ticker symbol to see its value.</small>
                         </form>
                     </div>
                     <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
@@ -83,7 +83,7 @@
             </div>
 
             <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC CARDS - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
-            <div class='row' id='locationForCards'></div>
+            <div class='row' id='locationForCards' style='padding-left: 5px'></div>
             <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC CARDS - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
 
         </div>
@@ -91,6 +91,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC JS - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
     <script src='stocks.js'></script>

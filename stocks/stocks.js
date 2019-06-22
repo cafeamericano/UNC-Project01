@@ -8,13 +8,13 @@
 //#######################################################################################
 
 var firebaseConfig = {
-    apiKey: "AIzaSyD0H7-8Kg84ccGyLbj6PUuC7IkeORh6J94",
-    authDomain: "authtest-5430b.firebaseapp.com",
-    databaseURL: "https://authtest-5430b.firebaseio.com",
-    projectId: "authtest-5430b",
+    apiKey: "AIzaSyBAFakhuIZwevHjyCyEFia2vW4j5DPOom4",
+    authDomain: "project1dashboard.firebaseapp.com",
+    databaseURL: "https://project1dashboard.firebaseio.com",
+    projectId: "project1dashboard",
     storageBucket: "",
-    messagingSenderId: "751290791098",
-    appId: "1:751290791098:web:34f86706cbdcc777"
+    messagingSenderId: "629434949340",
+    appId: "1:629434949340:web:5e49ca8bcf7b3cda"
 };
 
 // Initialize Firebase
@@ -23,18 +23,30 @@ firebase.initializeApp(firebaseConfig);
 //Log out
 logoutButton.addEventListener('click', e => {
     firebase.auth().signOut()
+    window.location.replace("../login/login.html");
 })
 
-//Realtime listener
+//Realtime listener for authentication
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log(firebaseUser)
-        $('#loggedInUserDisplay').text(`${firebaseUser.email}`)
+        $('#loggedInUserEmail').text(`${firebaseUser.email}`)
+
+        /*
+        database.ref(`/${firebaseUser.uid}/stocks`).once('value').then(function (snapshot) {
+            let stockSymbols = Object.keys(snapshot.val())
+            for (var symbol = 0; symbol < stockSymbols.length; symbol++) {
+                stockSearch(stockSymbols[symbol])
+            }
+        });
+        */
     } else {
-        window.location.replace("../login/login.html");
+        //window.location.replace("../login/login.html");
     }
 })
 
+// Reference to the database
+var database = firebase.database();
 
 //MATERIALIZE INITIALIZATION#############################################################
 //#######################################################################################
@@ -51,10 +63,6 @@ M.AutoInit();
 //###############################               #########################################
 //#######################################################################################
 
-//VARIABLES##############################################################################
-//#######################################################################################
-
-let stockSymbols = ['AAPL']
 
 //FUNCTIONS##############################################################################
 //#######################################################################################
@@ -74,7 +82,7 @@ function stockSearch(ticker) {
             M.toast({ html: 'It appears that you entered an invalid ticker symbol.' })
         } else {
             $('#locationForCards').prepend(`
-            <div class="col s12 m3">
+            <div id=${response.symbol} class="col s12 m3">
                 <!--Card start-->
                 <div class="card">
                     <div class="card-content">
@@ -82,12 +90,17 @@ function stockSearch(ticker) {
                         <p>$${response.price}/share</p>
                     </div>
                     <div class="card-action">
-                        <a href="#">Remove</a>
+                        <a class='cardDeleteButton'>Remove</a>
                     </div>
                 </div>
                 <!--Card end-->
             </div>
         `);
+            var user = firebase.auth().currentUser.uid;
+            console.log(user)
+            database.ref(`/${user}/stocks/`).update({
+                [ticker]: ticker
+            });
         }
     })
 }
@@ -110,9 +123,12 @@ $(document).on('submit', '#searchStockForm', function () {
     $('#searchStockForm').trigger('reset')
 });
 
+$(document).on("click", ".cardDeleteButton", function () {
+    $(this).parent().parent().parent().remove()
+})
+
 //RUN PROGRAM############################################################################
 //#######################################################################################
 
-for (var symbol = 0; symbol < stockSymbols.length; symbol++) {
-    stockSearch(stockSymbols[symbol])
-}
+
+
