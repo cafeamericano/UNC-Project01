@@ -20,28 +20,22 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-//Log out
-logoutButton.addEventListener('click', e => {
-    firebase.auth().signOut()
-    window.location.replace("../login/login.html");
-})
-
 //Realtime listener for authentication
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         console.log(firebaseUser)
         $('#loggedInUserEmail').text(`${firebaseUser.email}`)
 
-        
+
         database.ref(`/${firebaseUser.uid}/stocks`).once('value').then(function (snapshot) {
             let stockSymbols = Object.keys(snapshot.val())
             for (var symbol = 0; symbol < stockSymbols.length; symbol++) {
                 stockSearch(stockSymbols[symbol])
             }
         });
-        
+
     } else {
-        //window.location.replace("../login/login.html");
+        console.log('Logged out.')
     }
 })
 
@@ -56,6 +50,11 @@ M.AutoInit();
 //EVENT LISTENERS########################################################################
 //#######################################################################################
 
+//Log out
+logoutButton.addEventListener('click', e => {
+    firebase.auth().signOut()
+    window.location.replace("../login/login.html");
+})
 
 //#######################################################################################
 //###############################               #########################################
@@ -90,7 +89,7 @@ function stockSearch(ticker) {
                         <p>$${response.price}/share</p>
                     </div>
                     <div class="card-action">
-                        <a class='cardDeleteButton'>Remove</a>
+                        <a id='${response.symbol}' class='cardDeleteButton'>Remove</a>
                     </div>
                 </div>
                 <!--Card end-->
@@ -124,11 +123,8 @@ $(document).on('submit', '#searchStockForm', function () {
 });
 
 $(document).on("click", ".cardDeleteButton", function () {
+    let docID = ($(this).attr('id'))
+    var user = firebase.auth().currentUser.uid;
+    database.ref(`/${user}/stocks/${docID}`).remove()
     $(this).parent().parent().parent().remove()
 })
-
-//RUN PROGRAM############################################################################
-//#######################################################################################
-
-
-
