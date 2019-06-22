@@ -32,14 +32,14 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         console.log(firebaseUser)
         $('#loggedInUserEmail').text(`${firebaseUser.email}`)
 
-        /*
+        
         database.ref(`/${firebaseUser.uid}/stocks`).once('value').then(function (snapshot) {
             let stockSymbols = Object.keys(snapshot.val())
             for (var symbol = 0; symbol < stockSymbols.length; symbol++) {
                 stockSearch(stockSymbols[symbol])
             }
         });
-        */
+        
     } else {
         //window.location.replace("../login/login.html");
     }
@@ -74,7 +74,7 @@ function stockSearch(ticker) {
         dataType: 'json', //Seems to workaround the CORS issue
         error: function (err) {
             console.log(err)
-            M.toast({ html: `Our sources cannot provide information ${ticker.toUpperCase()} at this time. Try again later.` })
+            M.toast({ html: `Our sources cannot provide information for ${ticker.toUpperCase()} at this time. Try again later.` })
         }
     }).then(function (response) {
         console.log(response)
