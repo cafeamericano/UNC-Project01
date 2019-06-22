@@ -63,8 +63,6 @@ for (var symbol = 0; symbol < stockSymbols.length; symbol++) {
     stockSearch(stockSymbols[symbol])
 }
 
-
-
 $(document).on('submit', '#searchStockForm', function () {
     event.preventDefault()
     let enteredValue = $('#stockToSearch').val()

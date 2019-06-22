@@ -1,12 +1,3 @@
-//#######################################################################################
-//###############################               #########################################
-//###############################    GLOBAL     #########################################
-//###############################               #########################################
-//#######################################################################################
-
-//FIREBASE SETUP#########################################################################
-//#######################################################################################
-
 var firebaseConfig = {
     apiKey: "AIzaSyD0H7-8Kg84ccGyLbj6PUuC7IkeORh6J94",
     authDomain: "authtest-5430b.firebaseapp.com",
@@ -20,51 +11,60 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+const txtEmail = document.getElementById('txtEmail')
+const txtPassword = document.getElementById('txtPassword')
+const btnLogin = document.getElementById('btnLogin')
+const btnSignUp = document.getElementById('btnSignUp')
+const btnLogout = document.getElementById('btnLogout')
+
+//Login
+btnLogin.addEventListener('click', e => {
+    const email = txtEmail.value;
+    const pass = txtPassword.value;
+    const auth = firebase.auth();
+
+    const promise = auth.signInWithEmailAndPassword(email, pass);
+    promise.catch(e => console.log(e.message));
+})
+
+//Sign up
+btnSignUp.addEventListener('click', e => {
+    const email = txtEmail.value;
+    const pass = txtPassword.value;
+    const auth = firebase.auth();
+
+    const promise = auth.createUserWithEmailAndPassword(email, pass);
+    promise
+        //.then(user => console.log(user))
+        .catch(e => console.log(e.message));
+})
+
 //Log out
-logoutButton.addEventListener('click', e => {
+btnLogout.addEventListener('click', e => {
     firebase.auth().signOut()
 })
 
 //Realtime listener
 firebase.auth().onAuthStateChanged(firebaseUser => {
-    if (firebaseUser) {
-        $('#loggedInUserDisplay').text(`${firebaseUser.email}`)
+    if(firebaseUser) {
+        console.log(firebaseUser)
+        window.location.replace("file:///Users/Developer/Dropbox/UNC-Project01/stocks/stocks.html");
+        btnLogout.classList.remove('hide')
     } else {
-        window.location.replace("file:///Users/Developer/Dropbox/UNC-Project01/stocks/login.html");
+        console.log('not logged in')
+        //window.location.replace("file:///Users/Developer/Dropbox/UNC-Project01/stocks/login.html");
+        btnLogout.classList.add('hide')
     }
 })
 
-
-//MATERIALIZE INITIALIZATION#############################################################
+//#######################################################################################
+//#######################################################################################
+//#######################################################################################
+//#######################################################################################
+//#######################################################################################
 //#######################################################################################
 
 M.AutoInit();
-
-//EVENT LISTENERS########################################################################
-//#######################################################################################
-
-//Show side panel
-$(document).ready(function () {
-    $('.sidenav').sidenav();
-});
-
-
-
-
-
-//#######################################################################################
-//###############################               #########################################
-//############################### PAGE SPECIFIC #########################################
-//###############################               #########################################
-//#######################################################################################
-
-//VARIABLES##############################################################################
-//#######################################################################################
-
-let stockSymbols = ['AAPL']
-
-//FUNCTIONS##############################################################################
-//#######################################################################################
 
 function stockSearch(ticker) {
     $.ajax({
@@ -99,9 +99,7 @@ function stockSearch(ticker) {
     })
 }
 
-//EVENT LISTENERS########################################################################
-//#######################################################################################
-
+//Event listeners
 $(document).on("click", "#stockGrabButton", function () {
     event.preventDefault()
     let sym = $('#tickerToGrab').val().toUpperCase()
@@ -110,6 +108,26 @@ $(document).on("click", "#stockGrabButton", function () {
     $('#queryStockForm').trigger('reset')
 })
 
+$(document).ready(function () {
+    $('.tap-target').tapTarget();
+});
+
+$(document).ready(function () {
+    $('.modal').modal();
+});
+
+$(document).ready(function () {
+    $('.sidenav').sidenav();
+});
+
+let stockSymbols = ['AAPL']
+
+for (var symbol = 0; symbol < stockSymbols.length; symbol++) {
+    stockSearch(stockSymbols[symbol])
+}
+
+
+
 $(document).on('submit', '#searchStockForm', function () {
     event.preventDefault()
     let enteredValue = $('#stockToSearch').val()
@@ -117,9 +135,3 @@ $(document).on('submit', '#searchStockForm', function () {
     $('#searchStockForm').trigger('reset')
 });
 
-//RUN PROGRAM############################################################################
-//#######################################################################################
-
-for (var symbol = 0; symbol < stockSymbols.length; symbol++) {
-    stockSearch(stockSymbols[symbol])
-}

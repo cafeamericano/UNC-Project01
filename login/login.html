@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background-image: url('bg4.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            padding: 15px;
+        }
+    </style>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</head>
+
+<body class='container-fluid'>
+
+    <!--HEADER-->
+    <div class="row">
+        <h1 style='font-size: 110px; font-weight: 600; text-align: center; margin-top: 100px'>dashboard.</h1>
+    </div>
+
+    <!-- TESTING AREA-->
+    <div class='card' style='width: 300px; padding: 20px; margin: auto'>
+        <input id='txtEmail' type="email" placeholder='Email'>
+        <input id='txtPassword' type='password' placeholder="Password">
+        <button id='btnLogin' class='btn btn-action'>Login</button>
+        <button id='btnSignUp' class='btn btn-secondary'>Sign Up</button>
+        <button id='btnLogout' class='btn btn-action'>Log out</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='login.js'></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+
+</html>

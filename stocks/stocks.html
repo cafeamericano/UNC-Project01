@@ -5,39 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-        body {
-            background-image: url('bg4.jpg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            padding: 15px;
-        }
-    </style>
+    <title>Dashboard</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="globalStyle.css">
+
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+    <!--Icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 
 <body class='container-fluid'>
 
-    <!--HEADER-->
+    <!--Header-->
     <div class="row">
-        <h1 style='padding-left: 40px; font-size: 110px; font-weight: 600'>dashboard.</h1>
+        <div class='col s12 m6'>
+            <h1 style='padding-left: 40px; font-size: 8rem; font-weight: 600'>dashboard.</h1>
+        </div>
+        <div class='col s12 m6 right-align'>
+            <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons"
+                    style='color: rgb(0, 171, 155)'>menu</i></a>
+        </div>
     </div>
 
-    <!-- TESTING AREA-->
-    <main>
+    <!--Side panel-->
+    <ul id="slide-out" class="sidenav">
+        <li><a href="#!">
+                <h4 style='font-weight: 600'>dashboard.</h4>
+            </a></li>
+        <br>
+        <li><a href="#!"><i class="material-icons">account_circle</i>
+                <div id='loggedInUserDisplay'></div>
+            </a></li>
+        <li><a href="#!"><i class="material-icons">exit_to_app</i>
+                <div id='logoutButton'>Log Out</div>
+            </a></li>
+    </ul>
 
-    </main>
 
     <!--Row-->
     <div class="row">
 
-        <!--#######THE FLOATING NAVIGATION BAR#######-->
+        <!--Floating navbar-->
         <div class='col s12 m3'>
             <div class="collection" style='border-radius: 25px; opacity: 0.8'>
                 <a href="#!" class="collection-item">Weather</a>
@@ -48,12 +63,12 @@
             </div>
         </div>
 
-        <!--#######THE MAIN CONTAINER#######-->
+        <!--Main container-->
         <div class='col s12 m9'>
-
 
             <div class='row'>
                 <div class='col s12 m5'>
+                    <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
                     <div class="input-field inline" id='stockAddForm'>
                         <form id='searchStockForm'>
                             <input id="stockToSearch" type="text" class="validate">
@@ -62,17 +77,25 @@
                                 symbol to see its value.</span>
                         </form>
                     </div>
+                    <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
+
                 </div>
             </div>
 
-            <!--Card container-->
+            <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC CARDS - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
             <div class='row' id='locationForCards'></div>
+            <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC CARDS - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
 
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-auth.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src='template.js'></script>
+    <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC JS - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
+    <script src='stocks.js'></script>
+    <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC JS - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
+
 </body>
 
 </html>
