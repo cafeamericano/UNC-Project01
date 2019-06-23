@@ -127,5 +127,5 @@ $(document).on("click", ".cardDeleteButton", function () {
     let docID = ($(this).attr('id'))
     var user = firebase.auth().currentUser.uid;
     database.ref(`/${user}/stocks/${docID}`).remove()
-    $(this).parent().parent().parent().remove()
+    $(this).parent().parent().parent().fadeOut()
 })
