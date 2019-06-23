@@ -25,17 +25,21 @@
 
     <!-- Header -->
     <div class="row">
-        <p ID='creatorsBanner' style='text-align: center; margin-top: 20px'>MATTHEW FARMER | SHIVAM SUKHWAL | KELVIN TRAN | JI SOO NOH</p>
+        <p ID='creatorsBanner' style='text-align: center; margin-top: 20px'>MATTHEW FARMER | SHIVAM SUKHWAL | KELVIN
+            TRAN | JI SOO NOH</p>
         <h1 style='font-size: 110px; font-weight: 600; text-align: center; margin-top: 80px'>dashboard.</h1>
     </div>
 
     <!-- Login Box -->
-    <div class='card' style='width: 300px; padding: 20px; margin: auto'>
-        <input id='inputEmail' type="email" placeholder='Email'>
-        <input id='inputPassword' type='password' placeholder="Password">
-        <button id='loginButton' class='btn btn-action'>Login</button>
-        <button id='signUpButton' class='btn btn-secondary'>Sign Up</button>
-
+    <div class='card' style='width: 350px; padding: 40px; margin: auto'>
+        <form>
+            <input id='inputEmail' type="email" placeholder='Email'>
+            <input id='inputPassword' type='password' placeholder="Password">
+            <br><br>
+            <div id='loginButton' class='btn btn-action' style='width: 100%'>Login</div>
+            <div style='margin-top: 20px; text-align: center'>Don't have an account? Just enter your desired credentials
+                above and click <a id='signUpButton'>here</a> to register.</div>
+        </form>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
