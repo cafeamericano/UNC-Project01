@@ -3,5 +3,13 @@ body {
     background-size: cover;
     background-repeat: repeat;
     background-attachment: fixed;
-    padding: 15px;
+}
+
+/* Change title on mobile devices */
+@media only screen and (max-width: 768px) {
+    h1 {
+        font-size: 4rem !important;
+        text-align: center;
+        padding-left: 0px !important
+    }
 }
