@@ -69,13 +69,11 @@ loginButton.addEventListener('click', e => {
     promise.catch(function (error) {
         if (error.message === 'The email address is badly formatted.') {
             M.toast({ html: 'The email provided is not a valid email address.' })
-
         } else if (error.message === 'There is no user record corresponding to this identifier. The user may have been deleted.') {
             M.toast({ html: 'The entered email address is incorrect.' })
 
         } else if (error.message === 'The password is invalid or the user does not have a password.') {
             M.toast({ html: 'The entered password is incorrect.' })
-
         }
     });
 })

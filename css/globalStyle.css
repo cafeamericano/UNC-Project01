@@ -12,4 +12,7 @@ body {
         text-align: center;
         padding-left: 0px !important
     }
+    #creatorsBanner {
+        font-size: 0.8rem !important;
+    }
 }
