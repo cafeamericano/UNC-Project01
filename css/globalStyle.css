@@ -2,5 +2,6 @@ body {
     background-image: url('background.jpg');
     background-size: cover;
     background-repeat: repeat;
+    background-attachment: fixed;
     padding: 15px;
 }
