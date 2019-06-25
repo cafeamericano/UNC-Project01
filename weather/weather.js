@@ -37,7 +37,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 
     } else {
         console.log('Logged out.')
-        window.location.replace("../login/login.html");
+        window.location.replace("../index.html");
     }
 })
 
@@ -55,7 +55,7 @@ M.AutoInit();
 //Log out
 logoutButton.addEventListener('click', e => {
     firebase.auth().signOut()
-    window.location.replace("../login/login.html");
+    window.location.replace("../index.html");
 })
 
 //#######################################################################################
