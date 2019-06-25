@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="../css/globalStyle.css">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!--Icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body class='container-fluid'>
+
+    <!-- Header -->
+    <div class="row">
+        <p ID='creatorsBanner' style='text-align: center; margin-top: 20px'>MATTHEW FARMER | SHIVAM SUKHWAL | KELVIN
+            TRAN | JI SOO NOH</p>
+        <h1 style='font-size: 110px; font-weight: 600; text-align: center; margin-top: 80px'>dashboard.</h1>
+    </div>
+
+    <!-- Login Box -->
+    <div class='card' style='width: 350px; padding: 40px; margin: auto'>
+        <form>
+            <input id='inputEmail' type="email" placeholder='Email'>
+            <input id='inputPassword' type='password' placeholder="Password">
+            <br><br>
+            <div id='loginButton' class='btn btn-action' style='width: 100%'>Login</div>
+            <div style='margin-top: 20px; text-align: center'>Don't have an account? Just enter your desired credentials
+                above and click <a id='signUpButton'>here</a> to register.</div>
+        </form>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC JS - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
+    <script src='login.js'></script>
+    <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC JS - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
+
+</body>
+
+</html>
