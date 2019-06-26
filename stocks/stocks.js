@@ -85,9 +85,11 @@ function stockSearch(ticker) {
             <div id=${response.symbol} class="col s12 m3">
                 <!--Card start-->
                 <div class="card">
-                    <div class="card-content">
+                    <div class="card-content" style='position: relative'>
+                        <a onclick="historySearch('${ticker}')" class="btn-floating pulse modal-trigger" href="#modal1" style='position: absolute; right: 10px; top: 10px'><i class="material-icons">history</i></a>
                         <span class="card-title">${response.symbol}</span>
                         <p>$${response.price}/share</p>
+                        <i>As of ${(moment().format("h:mm A"))}</i>
                     </div>
                     <div class="card-action">
                         <a id='${response.symbol}' class='cardDeleteButton'>Remove</a>
@@ -103,7 +105,54 @@ function stockSearch(ticker) {
             });
         }
     })
-}
+};
+
+function historySearch(ticker) {
+    console.log('RUNNING!')
+    $.ajax({
+        url: `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line`,
+        method: 'GET',
+        dataType: 'json',
+        error: function (err) {
+            console.log(err)
+            M.toast({ html: `Our sources cannot provide information for ${ticker.toUpperCase()} at this time. Try again later.` })
+        }
+    }).then(function (response) {
+        let gatheredClosingValues = []
+        let gatheredClosingDates = []
+        console.log(response)
+        console.log(response.historical.length)
+        for (i = 0; i < response.historical.length; i += 30) {
+            gatheredClosingValues.push(response.historical[i].close)
+            gatheredClosingDates.push(response.historical[i].date)
+        };
+        console.log(gatheredClosingValues)
+        var ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: gatheredClosingDates,
+                datasets: [{
+                    label: 'Share Value',
+                    data: gatheredClosingValues,
+                    backgroundColor: [
+                        'rgba(13, 193, 175, 0.5)'
+                    ],
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        $('#companyForHistory').text(`Historical values for ${ticker.toUpperCase()}.`)
+    })
+};
 
 //EVENT LISTENERS########################################################################
 //#######################################################################################
