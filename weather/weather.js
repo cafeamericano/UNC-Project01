@@ -26,14 +26,14 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         console.log(firebaseUser)
         $('#loggedInUserEmail').text(`${firebaseUser.email}`)
 
-        
+
         database.ref(`/${firebaseUser.uid}/weather`).once('value').then(function (snapshot) {
             let weatherArr = Object.keys(snapshot.val())
             for (var i = 0; i < weatherArr.length; i++) {
                 weatherSearch(weatherArr[i])
             }
         });
-        
+
 
     } else {
         console.log('Logged out.')
@@ -69,7 +69,7 @@ logoutButton.addEventListener('click', e => {
 //#######################################################################################
 
 function weatherSearch(city) {
-    let apiKey =`4a664ff6f42237f34b83ba782227b041`;
+    let apiKey = `4a664ff6f42237f34b83ba782227b041`;
     $.ajax({
         url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`,
         method: 'GET',
@@ -102,11 +102,11 @@ function weatherSearch(city) {
         `);
             var user = firebase.auth().currentUser.uid;
             console.log(user)
-            
+
             database.ref(`/${user}/weather/`).update({
                 [response.name]: response.name
             });
-            
+
         }
     })
 }
