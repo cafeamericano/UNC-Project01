@@ -71,7 +71,7 @@ function stockSearch(ticker) {
     $.ajax({
         url: `https://financialmodelingprep.com/api/v3/stock/real-time-price/${ticker}`,
         method: 'GET',
-        dataType: 'json', //Seems to workaround the CORS issue
+        dataType: 'json',
         error: function (err) {
             console.log(err)
             M.toast({ html: `Our sources cannot provide information for ${ticker.toUpperCase()} at this time. Try again later.` })
@@ -108,7 +108,12 @@ function stockSearch(ticker) {
 };
 
 function historySearch(ticker) {
-    console.log('RUNNING!')
+
+    //Empty old data from the modal, implement progress bar during wait
+    $('.modal-content').empty()
+    $('.modal-content').append(`<div class="progress"><div class="indeterminate"></div></div>`)
+
+    //Make the API call
     $.ajax({
         url: `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line`,
         method: 'GET',
@@ -127,6 +132,13 @@ function historySearch(ticker) {
             gatheredClosingDates.push(response.historical[i].date)
         };
         console.log(gatheredClosingValues)
+
+        //Prepare the modal for new data
+        $('.modal-content').empty()
+        $('.modal-content').append(`<h5 id='companyForHistory'>Historical Values for ${ticker}</h5>`)
+        $('.modal-content').append(`<canvas id="myChart"></canvas>`)
+
+        //Create the new chart
         var ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
@@ -150,7 +162,6 @@ function historySearch(ticker) {
                 }
             }
         });
-        $('#companyForHistory').text(`Historical values for ${ticker.toUpperCase()}.`)
     })
 };
 
