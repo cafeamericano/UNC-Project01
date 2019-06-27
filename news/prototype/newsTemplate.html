@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>News</title>
+    <style></style>
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <!-- Compiled and minified JavaScript -->
+  </head>
+
+  <body class="container-fluid">
+    <!--HEADER-->
+    <div class="row">
+      <h1 style="padding-left: 40px; font-size: 110px; font-weight: 600">
+        dashboard.
+      </h1>
+    </div>
+
+    <!-- TESTING AREA-->
+    <main></main>
+
+    <!--Row-->
+    <div class="row">
+      <!--#######THE FLOATING NAVIGATION BAR#######-->
+      <div class="col s12 m3">
+        <div class="collection" style="border-radius: 25px; opacity: 0.8">
+          <a href="#!" class="collection-item">Weather</a>
+          <a href="#!" class="collection-item active">News</a>
+          <a href="#!" class="collection-item">Stocks</a>
+          <a href="#!" class="collection-item">Currency</a>
+          <a href="#!" class="collection-item">Cryptocurrency</a>
+        </div>
+      </div>
+
+      <!--#######THE MAIN CONTAINER#######-->
+      <div class="col s12 m9">
+        <div class="row">
+          <div class="col s12 m5">
+            <div class="container">
+              <h1>Search the News</h1>
+
+              <div>
+                <label for="search">Search Term:</label>
+                <input type="text" id="search-term" />
+              </div>
+              <select id="scope">
+                <option value="top-headlines">Top Headlines</option>
+                <option value="everything">All Headlines</option>
+              </select>
+              <select id="country">
+                <option value="us">US</option>
+                <option value="mx">Mexico</option>
+                <option value="ru">Russia</option>
+                <option value="ca">Canada</option>
+              </select>
+              <select id="category">
+                <option value="">General</option>
+                <option value="business">Business</option>
+                <option value="health">Health</option>
+                <option value="technology">Technology</option>
+                <option value="science">Science</option>
+                <option value="sports">Sports</option>
+                <option value="entertainment">Entertainment</option>
+              </select>
+              <button type="submit" class="btn" id="run-search">
+                Search
+              </button>
+              <button id="clear-all" class="btn">
+                Clear Results
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Card container-->
+    <div class="row">
+      <div id="locationForCards"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="test.js"></script>
+    <script src="news.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </body>
+</html>
