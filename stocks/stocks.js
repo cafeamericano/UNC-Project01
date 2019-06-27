@@ -71,7 +71,7 @@ function stockSearch(ticker) {
     $.ajax({
         url: `https://financialmodelingprep.com/api/v3/stock/real-time-price/${ticker}`,
         method: 'GET',
-        dataType: 'json', //Seems to workaround the CORS issue
+        dataType: 'json',
         error: function (err) {
             console.log(err)
             M.toast({ html: `Our sources cannot provide information for ${ticker.toUpperCase()} at this time. Try again later.` })
@@ -85,9 +85,11 @@ function stockSearch(ticker) {
             <div id=${response.symbol} class="col s12 m3">
                 <!--Card start-->
                 <div class="card">
-                    <div class="card-content">
+                    <div class="card-content" style='position: relative'>
+                        <a onclick="historySearch('${ticker}')" class="btn-floating pulse modal-trigger" href="#modal1" style='position: absolute; right: 10px; top: 10px'><i class="material-icons">history</i></a>
                         <span class="card-title">${response.symbol}</span>
                         <p>$${response.price}/share</p>
+                        <i>As of ${(moment().format("h:mm A"))}</i>
                     </div>
                     <div class="card-action">
                         <a id='${response.symbol}' class='cardDeleteButton'>Remove</a>
@@ -103,7 +105,65 @@ function stockSearch(ticker) {
             });
         }
     })
-}
+};
+
+function historySearch(ticker) {
+
+    //Empty old data from the modal, implement progress bar during wait
+    $('.modal-content').empty()
+    $('.modal-content').append(`<div class="progress"><div class="indeterminate"></div></div>`)
+
+    //Make the API call
+    $.ajax({
+        url: `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line`,
+        method: 'GET',
+        dataType: 'json',
+        error: function (err) {
+            console.log(err)
+            M.toast({ html: `Our sources cannot provide information for ${ticker.toUpperCase()} at this time. Try again later.` })
+        }
+    }).then(function (response) {
+        let gatheredClosingValues = []
+        let gatheredClosingDates = []
+        console.log(response)
+        console.log(response.historical.length)
+        for (i = 0; i < response.historical.length; i += 30) {
+            gatheredClosingValues.push(response.historical[i].close)
+            gatheredClosingDates.push(response.historical[i].date)
+        };
+        console.log(gatheredClosingValues)
+
+        //Prepare the modal for new data
+        $('.modal-content').empty()
+        $('.modal-content').append(`<h5 id='companyForHistory'>Historical Values for ${ticker}</h5>`)
+        $('.modal-content').append(`<canvas id="myChart"></canvas>`)
+
+        //Create the new chart
+        var ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: gatheredClosingDates,
+                datasets: [{
+                    label: 'Share Value',
+                    data: gatheredClosingValues,
+                    backgroundColor: [
+                        'rgba(13, 193, 175, 0.5)'
+                    ],
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    })
+};
 
 //EVENT LISTENERS########################################################################
 //#######################################################################################

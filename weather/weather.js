@@ -91,9 +91,7 @@ function weatherSearch(city) {
                         <span class="card-title">${response.name}</span>
                         <p>${((response.main.temp - 273.15) * 9 / 5 + 32).toFixed(0)}℉</p>
                         <p>${response.weather[0].main}</p>
-                        <img src="http://openweathermap.org/img/w/${
-                response.weather[0].icon
-                }.png";
+                        <img src="http://openweathermap.org/img/w/${response.weather[0].icon}.png";
                     </div>
                     <div class="card-action">
                         <a id='${response.name}' class='cardDeleteButton'>Remove</a>
