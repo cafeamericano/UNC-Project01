@@ -99,7 +99,7 @@ function newsApp(news) {
               <div class="card-action">
                   <button id='${
                     latestNews[i].title
-                  }-remove' class='cardDeleteButton btn'>Remove</button>
+                  }-remove' class='cardDeleteButton1 btn'>Remove</button>
               </div>
               <div class="card-action">
                   <button id= ${
@@ -110,7 +110,7 @@ function newsApp(news) {
           <!--Card end-->
       </div>
   `);
-    $("cardDeleteButton").on("click", function() {
+    $("cardDeleteButton1").on("click", function() {
       $("#" + latestNews[i].title + "-card").hide();
     });
   }
