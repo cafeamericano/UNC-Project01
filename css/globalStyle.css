@@ -5,6 +5,10 @@ body {
     background-attachment: fixed;
 }
 
+.card-title {
+    color: rgb(42, 179, 166)
+}
+
 /* Change title on mobile devices */
 @media only screen and (max-width: 768px) {
     h1 {
