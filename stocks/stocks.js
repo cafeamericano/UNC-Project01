@@ -82,11 +82,11 @@ function stockSearch(ticker) {
             M.toast({ html: 'It appears that you entered an invalid ticker symbol.' })
         } else {
             $('#locationForCards').prepend(`
-            <div id=${response.symbol} class="col s12 m3">
+            <div id=${response.symbol} class="col s6 m3">
                 <!--Card start-->
                 <div class="card">
                     <div class="card-content" style='position: relative'>
-                        <a onclick="historySearch('${ticker}')" class="btn-floating pulse modal-trigger" href="#modal1" style='position: absolute; right: 10px; top: 10px'><i class="material-icons">history</i></a>
+                        <a onclick="historySearch('${ticker}')" class="btn-floating pulse modal-trigger" href="#modal1" style='position: absolute; right: 10px; top: 10px'><i class="material-icons">multiline_chart</i></a>
                         <span class="card-title">${response.symbol}</span>
                         <p>$${response.price}/share</p>
                         <i>As of ${(moment().format("h:mm A"))}</i>

@@ -84,14 +84,14 @@ function weatherSearch(city) {
             M.toast({ html: 'It appears that you entered an invalid ticker symbol.' })
         } else {
             $('#locationForCards').prepend(`
-            <div id=${response.name} class="col s12 m3">
+            <div id=${response.name} class="col s6 m4 l3">
                 <!--Card start-->
                 <div class="card">
                     <div class="card-content">
                     
-                        <span class="card-title">${response.name}</span>
+                        <span class="card-title" style='margin-bottom: 18px !important'>${response.name}</span>
                             <div class= "container">
-                                <div class = "row"> 
+                                <div class = "row" style='margin-bottom: 0px !important'> 
                                      <div class="col s6">
                                         <p>${((response.main.temp - 273.15) * 9 / 5 + 32).toFixed(0)}℉</p>
                                         <p>${response.weather[0].main}</p>

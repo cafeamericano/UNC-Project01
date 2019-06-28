@@ -16,6 +16,8 @@
 
   <!--Icons-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!--Map Styling-->
   <style>
     /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -82,6 +84,7 @@
       font-size: 15px;
       font-weight: 300;
       margin-left: 12px;
+      margin-top: 10px;
       padding: 0 11px 0 13px;
       text-overflow: ellipsis;
       width: 400px;
@@ -156,9 +159,9 @@
           <div class="input-field inline card" id='cityAddForm'
             style='padding: 10px; opacity: 0.8; background: black; color: white'>
             <form id='searchWeatherForm'>
-              <label for="weatherToSearch">City Name</label>
+              <label for="weatherToSearch">Place Name</label>
               <input id="weatherToSearch" type="text" class="validate" style='color: white'>
-              <small>Search a city to see its current weather status.</small>
+              <small>Search a location to see it on the map.</small>
             </form>
           </div>
           <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
@@ -268,6 +271,12 @@
 
   </script>
   <script>
+    //Log out
+    logoutButton.addEventListener('click', e => {
+      firebase.auth().signOut()
+      window.location.replace("../index.html");
+    })
+
     $(document).on("keyup", "#weatherToSearch", function () {
       let googInput = $('#weatherToSearch').val()
       console.log(googInput)
@@ -289,9 +298,61 @@
     });
 
   </script>
+
+  <!--Initialize Materialize and Firebase-->
+
+  <script>
+    //FIREBASE SETUP#########################################################################
+    //#######################################################################################
+
+    var firebaseConfig = {
+      apiKey: "AIzaSyBAFakhuIZwevHjyCyEFia2vW4j5DPOom4",
+      authDomain: "project1dashboard.firebaseapp.com",
+      databaseURL: "https://project1dashboard.firebaseio.com",
+      projectId: "project1dashboard",
+      storageBucket: "",
+      messagingSenderId: "629434949340",
+      appId: "1:629434949340:web:5e49ca8bcf7b3cda"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    //Realtime listener for authentication
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if (firebaseUser) {
+        console.log(firebaseUser)
+        $('#loggedInUserEmail').text(`${firebaseUser.email}`)
+
+
+        database.ref(`/${firebaseUser.uid}/stocks`).once('value').then(function (snapshot) {
+          let stockSymbols = Object.keys(snapshot.val())
+          for (var symbol = 0; symbol < stockSymbols.length; symbol++) {
+            stockSearch(stockSymbols[symbol])
+          }
+        });
+
+      } else {
+        console.log('Logged out.')
+        window.location.replace("../index.html");
+      }
+    })
+
+    // Reference to the database
+    var database = firebase.database();
+
+    //MATERIALIZE INITIALIZATION#############################################################
+    //#######################################################################################
+
+    M.AutoInit();
+
+  </script>
+
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAknQmMnD8mR6yUg6RMcDL27c_pH2b5hl4&libraries=places&callback=initAutocomplete"
-    async defer></script>
+    async defer>
+    </script>
+
 </body>
 
 </html>

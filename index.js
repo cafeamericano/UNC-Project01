@@ -60,7 +60,8 @@ const signUpButton = document.getElementById('signUpButton')
 //#######################################################################################
 
 //Login
-loginButton.addEventListener('click', e => {
+$(document).on('submit', '#loginForm', function () {
+    event.preventDefault()
     const email = inputEmail.value;
     const pass = inputPassword.value;
     const auth = firebase.auth();
