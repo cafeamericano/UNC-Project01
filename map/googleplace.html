@@ -139,11 +139,11 @@
     <!--Floating navbar-->
     <div class='col s12 m3'>
       <div class="collection" style='border-radius: 25px; opacity: 0.8'>
-        <a href="weather.html" class="collection-item active">Weather</a>
-        <a href="../news/news.html" class="collection-item">News</a>
+        <a href="../weather/weather.html" class="collection-item">Weather</a>
         <a href="../stocks/stocks.html" class="collection-item">Stocks</a>
-        <a href="#!" class="collection-item">Currency</a>
-        <a href="#!" class="collection-item">Cryptocurrency</a>
+        <a href="../currency/cryptocurrency.html" class="collection-item">Cryptocurrency</a>
+        <a href="../news/news.html" class="collection-item">News</a>
+        <a href="googleplace.html" class="collection-item active">Map</a>
       </div>
     </div>
 
@@ -277,8 +277,8 @@
     $(document).on('submit', '#searchWeatherForm', function () {
       event.preventDefault()
       $('#pac-input').focus()
-      setTimeout(function(){ 
-        $.Event( "keypress", { which: 13 } );
+      setTimeout(function () {
+        $.Event("keypress", { which: 13 });
       }, 500);
 
       //$.Event( "keypress", { which: 13 } );
