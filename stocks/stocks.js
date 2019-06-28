@@ -88,7 +88,7 @@ function stockSearch(ticker) {
                     <div class="card-content" style='position: relative'>
                         <a onclick="historySearch('${ticker}')" class="btn-floating pulse modal-trigger" href="#modal1" style='position: absolute; right: 10px; top: 10px'><i class="material-icons">multiline_chart</i></a>
                         <span class="card-title">${response.symbol}</span>
-                        <p>$${response.price}/share</p>
+                        <p>$${response.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} / share</p>
                         <i>As of ${(moment().format("h:mm A"))}</i>
                     </div>
                     <div class="card-action">

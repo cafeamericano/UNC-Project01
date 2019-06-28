@@ -88,7 +88,7 @@ function cryptoSearch(ticker) {
                 <div class="card">
                     <div class="card-content" style='position: relative'>
                         <span class="card-title">${response.name}</span>
-                        <p>$${response.price}/share</p>
+                        <p>$${response.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} / ${response.name}</p>
                         <p>24hr Change : $${response.changes}</p>
                     </div>
                     <div class="card-action">
