@@ -82,7 +82,7 @@ function stockSearch(ticker) {
             M.toast({ html: 'It appears that you entered an invalid ticker symbol.' })
         } else {
             $('#locationForCards').prepend(`
-            <div id=${response.symbol} class="col s6 m3">
+            <div id=${response.symbol} class="col s6 m4">
                 <!--Card start-->
                 <div class="card">
                     <div class="card-content" style='position: relative'>

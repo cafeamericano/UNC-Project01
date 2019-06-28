@@ -83,7 +83,7 @@ function cryptoSearch(ticker) {
             M.toast({ html: 'It appears that you entered an invalid ticker symbol.' })
         } else {
             $('#locationForCards').prepend(`
-            <div id=${response.name} class="col s12 m3">
+            <div id=${response.name} class="col s12 m4 l3">
                 <!--Card start-->
                 <div class="card">
                     <div class="card-content" style='position: relative'>
