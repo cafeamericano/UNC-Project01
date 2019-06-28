@@ -88,10 +88,20 @@ function weatherSearch(city) {
                 <!--Card start-->
                 <div class="card">
                     <div class="card-content">
+                    
                         <span class="card-title">${response.name}</span>
-                        <p>${((response.main.temp - 273.15) * 9 / 5 + 32).toFixed(0)}℉</p>
-                        <p>${response.weather[0].main}</p>
-                        <img src="http://openweathermap.org/img/w/${response.weather[0].icon}.png";
+                            <div class= "container">
+                                <div class = "row"> 
+                                     <div class="col s6">
+                                        <p>${((response.main.temp - 273.15) * 9 / 5 + 32).toFixed(0)}℉</p>
+                                        <p>${response.weather[0].main}</p>
+                                    </div>
+                                 <div class="col s6">
+                                     <img src="http://openweathermap.org/img/w/${response.weather[0].icon}.png" style='transform: scale(1.5)'> 
+                                 </div>
+                            </div>
+                    
+                    </div>
                     </div>
                     <div class="card-action">
                         <a id='${response.name}' class='cardDeleteButton'>Remove</a>
@@ -99,6 +109,7 @@ function weatherSearch(city) {
                 </div>
                 <!--Card end-->
             </div>
+        </div>   
         `);
             var user = firebase.auth().currentUser.uid;
             console.log(user)
