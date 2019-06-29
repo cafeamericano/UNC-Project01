@@ -81,7 +81,7 @@ function cryptoSearch(ticker) {
             M.toast({ html: 'It appears that you entered an invalid ticker symbol.' })
         } else {
             $('#locationForCards').prepend(`
-            <div id=${response.name} class="col s12 m4 l3">
+            <div id=${ticker.toUpperCase()} class="col s12 m4 l3">
                 <!--Card start-->
                 <div class="card">
                     <div class="card-content" style='position: relative'>
@@ -90,17 +90,19 @@ function cryptoSearch(ticker) {
                         <p>24hr Change : $${response.changes}</p>
                     </div>
                     <div class="card-action">
-                        <a id='${response.name}' class='cardDeleteButton'>Remove</a>
+                        <a id='${ticker.toUpperCase()}' class='cardDeleteButton'>Remove</a>
                     </div>
                 </div>
                 <!--Card end-->
             </div>
         `);
-             var user = firebase.auth().currentUser.uid;
-             console.log(user)
-             database.ref(`/${user}/cryptocurrency/`).update({
-                 [ticker]: ticker
-             });
+
+        //Add the cryptocurrency to the database
+            var user = firebase.auth().currentUser.uid;
+            console.log(user)
+            database.ref(`/${user}/cryptocurrency/`).update({
+                [ticker]: response.name
+            });
         }
     })
 };
@@ -120,6 +122,7 @@ $(document).on('submit', '#searchCryptoForm', function () {
 $(document).on("click", ".cardDeleteButton", function () {
     let docID = ($(this).attr('id'))
     var user = firebase.auth().currentUser.uid;
+    console.log(`/${user}/cryptocurrency/${docID}`)
     database.ref(`/${user}/cryptocurrency/${docID}`).remove()
     $(this).parent().parent().parent().fadeOut()
 })
