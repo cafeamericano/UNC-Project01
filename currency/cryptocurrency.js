@@ -26,7 +26,6 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         console.log(firebaseUser)
         $('#loggedInUserEmail').text(`${firebaseUser.email}`)
 
-
         database.ref(`/${firebaseUser.uid}/cryptocurrency`).once('value').then(function (snapshot) {
             let cryptoArr = Object.keys(snapshot.val())
             for (var symbol = 0; symbol < cryptoArr.length; symbol++) {
@@ -68,7 +67,6 @@ logoutButton.addEventListener('click', e => {
 //#######################################################################################
 
 function cryptoSearch(ticker) {
-    let apiKey = `ea5f65bccfe9c3537a23a9f2169b80f5b975355d983c5c5ce1a9f7ba68dd9c55`
     $.ajax({
         url: `https://financialmodelingprep.com/api/v3/cryptocurrency/${ticker}`,
         method: 'GET',
@@ -111,14 +109,6 @@ function cryptoSearch(ticker) {
 
 //EVENT LISTENERS########################################################################
 //#######################################################################################
-
-$(document).on("click", "#cryptoGrabButton", function () {
-    event.preventDefault()
-    let sym = $('#tickerToGrab').val().toUpperCase()
-    console.log(sym)
-    cryptoSearch(sym)
-    $('#queryCryptoForm').trigger('reset')
-})
 
 $(document).on('submit', '#searchCryptoForm', function () {
     event.preventDefault()

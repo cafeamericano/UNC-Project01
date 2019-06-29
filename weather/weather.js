@@ -80,10 +80,8 @@ function weatherSearch(city) {
         }
     }).then(function (response) {
         console.log(response)
-        if (response.symbol === 'hey') {
-            M.toast({ html: 'It appears that you entered an invalid ticker symbol.' })
-        } else {
-            $('#locationForCards').prepend(`
+
+        $('#locationForCards').prepend(`
             <div id=${response.name} class="col s6 m4 l3">
                 <!--Card start-->
                 <div class="card">
@@ -111,27 +109,18 @@ function weatherSearch(city) {
             </div>
         </div>   
         `);
-            var user = firebase.auth().currentUser.uid;
-            console.log(user)
+        var user = firebase.auth().currentUser.uid;
+        console.log(user)
 
-            database.ref(`/${user}/weather/`).update({
-                [response.name]: response.name
-            });
+        database.ref(`/${user}/weather/`).update({
+            [response.name]: response.name
+        });
 
-        }
     })
 }
 
 //EVENT LISTENERS########################################################################
 //#######################################################################################
-
-$(document).on("click", "#weatherGrabButton", function () {
-    event.preventDefault()
-    let sym = $('#tickerToGrab').val().toUpperCase()
-    console.log(sym)
-    weatherSearch(sym)
-    $('#queryWeatherForm').trigger('reset')
-})
 
 $(document).on('submit', '#searchWeatherForm', function () {
     event.preventDefault()
