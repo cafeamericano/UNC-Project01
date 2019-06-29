@@ -80,18 +80,16 @@ function weatherSearch(city) {
         }
     }).then(function (response) {
         console.log(response)
-        if (response.symbol === 'hey') {
-            M.toast({ html: 'It appears that you entered an invalid ticker symbol.' })
-        } else {
-            $('#locationForCards').prepend(`
-            <div id=${response.name} class="col s12 m3">
+
+        $('#locationForCards').prepend(`
+            <div id=${response.name} class="col s6 m4 l3">
                 <!--Card start-->
                 <div class="card">
                     <div class="card-content">
                     
-                        <span class="card-title">${response.name}</span>
+                        <span class="card-title" style='margin-bottom: 18px !important'>${response.name}</span>
                             <div class= "container">
-                                <div class = "row"> 
+                                <div class = "row" style='margin-bottom: 0px !important'> 
                                      <div class="col s6">
                                         <p>${((response.main.temp - 273.15) * 9 / 5 + 32).toFixed(0)}℉</p>
                                         <p>${response.weather[0].main}</p>
@@ -111,27 +109,18 @@ function weatherSearch(city) {
             </div>
         </div>   
         `);
-            var user = firebase.auth().currentUser.uid;
-            console.log(user)
+        var user = firebase.auth().currentUser.uid;
+        console.log(user)
 
-            database.ref(`/${user}/weather/`).update({
-                [response.name]: response.name
-            });
+        database.ref(`/${user}/weather/`).update({
+            [response.name]: response.name
+        });
 
-        }
     })
 }
 
 //EVENT LISTENERS########################################################################
 //#######################################################################################
-
-$(document).on("click", "#weatherGrabButton", function () {
-    event.preventDefault()
-    let sym = $('#tickerToGrab').val().toUpperCase()
-    console.log(sym)
-    weatherSearch(sym)
-    $('#queryWeatherForm').trigger('reset')
-})
 
 $(document).on('submit', '#searchWeatherForm', function () {
     event.preventDefault()
