@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>News</title>
+    <style></style>
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <!-- Compiled and minified JavaScript -->
+  </head>
+
+  <body class="container-fluid">
+    <!--HEADER-->
+    <div class="row">
+      <h1 style="padding-left: 40px; font-size: 110px; font-weight: 600">
+        dashboard.
+      </h1>
+    </div>
+
+    <!-- TESTING AREA-->
+    <main></main>
+
+    <!--Row-->
+    <div class="row">
+      <!--#######THE FLOATING NAVIGATION BAR#######-->
+      <div class="col s12 m3">
+        <div class="collection" style="border-radius: 25px; opacity: 0.8">
+          <a href="../weather/weather.html" class="collection-item">Weather</a>
+          <a href="../stocks/stocks.html" class="collection-item">Stocks</a>
+          <a href="../currency/currency.html" class="collection-item">Cryptocurrency</a>
+          <a href="news.html" class="collection-item active">News</a>
+          <a href="../map/googleplace.html" class="collection-item">Map</a>
+        </div>
+      </div>
+
+      <!--#######THE MAIN CONTAINER#######-->
+      <div class="col s12 m9">
+        <div class="row">
+              <div class="col s12 m7" id="search-bar">
+                  <label for="search"
+                  >Search for Articles</label
+                >
+                <input type="text" id="search-term" />
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Card container-->
+    <div class="row">
+        <div class="col s12 m4">
+            <button id="clear-all" class="btn">
+                Clear Results
+              </button>
+              <button class="btn" id="previous">Previous</button>
+              <button class="btn" id="next">Next Page</button>
+        </div>
+        <div class="col s12 m4" id="errorDiv"></div>
+      
+      </div>
+      <div class="row"><div id="locationForCards">
+      </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="test.js"></script>
+    <script src="news2.js"></script>
+   <!-- <link rel="stylesheet" href="../css/globalStyle.css"> -->
+    <link rel="stylesheet" href="style.css" />
+  </body>
+</html>

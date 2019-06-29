@@ -1,125 +1,262 @@
-var pageNum = 1;
+//#######################################################################################
+//###############################               #########################################
+//###############################    GLOBAL     #########################################
+//###############################               #########################################
+//#######################################################################################
+
+//FIREBASE SETUP#########################################################################
+//#######################################################################################
+
+var firebaseConfig = {
+  apiKey: "AIzaSyBAFakhuIZwevHjyCyEFia2vW4j5DPOom4",
+  authDomain: "project1dashboard.firebaseapp.com",
+  databaseURL: "https://project1dashboard.firebaseio.com",
+  projectId: "project1dashboard",
+  storageBucket: "",
+  messagingSenderId: "629434949340",
+  appId: "1:629434949340:web:5e49ca8bcf7b3cda"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+//Realtime listener for authentication
+firebase.auth().onAuthStateChanged(firebaseUser => {
+  if (firebaseUser) {
+    console.log(firebaseUser);
+    $("#loggedInUserEmail").text(`${firebaseUser.email}`);
+
+    // database.ref(`/${firebaseUser.uid}/news`).once('value').then(function (snapshot) {
+    //     let newsArr = Object.keys(snapshot.val())
+    //     for (var i = 0; i < newsArr.length; i++) {
+    //         newsSearch(newsArr[i])
+    //     }
+    // });
+  } else {
+    console.log("Logged out.");
+    window.location.replace("../index.html");
+  }
+});
+
+// Reference to the database
+var database = firebase.database();
+
+//MATERIALIZE INITIALIZATION#############################################################
+//#######################################################################################
+
+M.AutoInit();
+
+//EVENT LISTENERS########################################################################
+//#######################################################################################
+
+//Log out
+logoutButton.addEventListener("click", e => {
+  firebase.auth().signOut();
+  window.location.replace("../index.html");
+});
+
+//#######################################################################################
+//###############################               #########################################
+//############################### PAGE SPECIFIC #########################################
+//###############################               #########################################
+//#######################################################################################
+
+//FUNCTIONS##############################################################################
+//#######################################################################################
+let apiKey = "AXZRvJ0jreBWRHyR70GN1GaADEpWHywa";
+let page = 0;
 var queryURL = "";
-var page = "";
-
-$("#next").on("click", function() {
-  clear();
-  pageNum++;
-  page = "page=" + pageNum + "&";
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(newsApp);
-});
-
-$("#previous").on("click", function() {
-  if (pageNum > 1) {
-    clear();
-    pageNum--;
-    page = "page=" + pageNum + "&";
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    }).then(newsApp);
-  } else {
-    $("#goHere").text("<h3>You're on the first page already.</h3>");
-  }
-});
-
-$("#run-search").on("click", function(event) {
-  event.preventDefault();
-  clear();
-  query = $("#search-term")
-    .val()
-    .trim();
-  var scope = $("#scope").val();
-
-  var category = $("#category").val();
-  var categoryURL = "";
-  if (category !== "" && scope == "top-headlines") {
-    categoryURL = "category=" + $("#category").val() + "&";
-  } else {
-    categoryURL = "";
-  }
-  if (scope == "everything") {
-    categoryURL = "";
-    countryURL = "";
-  }
-  var country = $("#country").val();
-  var countryURL = "";
-  if (country !== "" && scope == "top-headlines") {
-    countryURL = "country=" + country + "&";
-  } else {
-    countryURL = "";
-  }
-  if (scope == "top-headlines") {
-    page = "";
-  } else {
-    page = "page=" + pageNum + "&";
-  }
-  queryURL =
-    "https://newsapi.org/v2/" +
-    scope +
-    "?q=" +
-    query +
-    "&" +
-    countryURL +
-    categoryURL +
+var topic = "";
+var enteredValue = "";
+var mostView = true;
+var mostViewedURL = "";
+function mostViewed() {
+  mostViewedURL =
+    "https://api.nytimes.com/svc/mostpopular/v2/viewed/1.json?&api-key=AXZRvJ0jreBWRHyR70GN1GaADEpWHywa&page=" +
     page +
-    "apiKey=d5a51f0326f74bd683a2c573c8562424";
-  console.log(queryURL);
+    "&limit=5";
+  $.ajax({
+    url: mostViewedURL,
+    method: "GET",
+    dataType: "json" //Seems to workaround the CORS issue
+  }).then(function(response) {
+    console.log(mostViewedURL);
+    if (response.symbol === "hey") {
+      M.toast({
+        html: "It appears that you entered an invalid ticker symbol."
+      });
+    } else {
+      console.log(response.num_results);
+
+      for (i = 0; i < response.results.length; i++) {
+        console.log(response.results[i].title);
+        $("#locationForCards").append(`
+                <div id=${response.results[i].title} class="col s12 m6">
+                    <!--Card start-->
+                    <div class="card">
+                        <div class="card-content" style='height: 300px; overflow: scroll'>
+                            <span class="card-title">${
+                              response.results[i].title
+                            }</span>
+                            <small>Published 
+                                ${response.results[i].published_date}
+                            </small>
+                            <br/>
+                            <br/>
+                            <span>${
+                              response.results[i].abstract
+                            }  </span><a href=${
+          response.results[i].url
+        }>Read more.</a>
+                        </div>
+                        <div class="card-action">
+                            <a id='${
+                              response.results[i].title
+                            }' class='cardDeleteButton'>Remove</a>
+                        </div>
+                    </div>
+                    <!--Card end-->
+                </div>
+            `);
+      }
+      var user = firebase.auth().currentUser.uid;
+      console.log(user);
+
+      // database.ref(`/${user}/news/`).update({
+      //     [response.name]: response.name
+      // });
+    }
+  });
+}
+
+function newsSearch(searchTerm) {
+  $("#pageUp").show();
+  $("#pageDown").show();
+  mostview = false;
+  queryURL =
+    "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" +
+    searchTerm +
+    "&api-key=" +
+    apiKey +
+    "&page=" +
+    page +
+    "&limit=5";
   $.ajax({
     url: queryURL,
-    method: "GET"
-  }).then(newsApp);
+    method: "GET",
+    dataType: "json" //Seems to workaround the CORS issue
+  }).then(function(response) {
+    console.log(response);
+    console.log(queryURL);
+    if (response.symbol === "hey") {
+      M.toast({
+        html: "It appears that you entered an invalid ticker symbol."
+      });
+    } else {
+      for (i = 0; i < response.response.docs.length; i++) {
+        $("#locationForCards").prepend(`
+            <div id=${
+              response.response.docs[i].headline.main
+            } class="col s12 m6">
+                <!--Card start-->
+                <div class="card">
+                    <div class="card-content" style='height: 300px; overflow: scroll'>
+                        <span class="card-title">${
+                          response.response.docs[i].headline.main
+                        }</span>
+                        <small>Published 
+                            ${response.response.docs[i].pub_date[0]}${
+          response.response.docs[i].pub_date[1]
+        }${response.response.docs[i].pub_date[2]}${
+          response.response.docs[i].pub_date[3]
+        }${response.response.docs[i].pub_date[4]}${
+          response.response.docs[i].pub_date[5]
+        }${response.response.docs[i].pub_date[6]}${
+          response.response.docs[i].pub_date[7]
+        }${response.response.docs[i].pub_date[8]}${
+          response.response.docs[i].pub_date[9]
+        }
+                        </small>
+                        <br/>
+                        <br/>
+                        <span>${
+                          response.response.docs[i].abstract
+                        }  </span><a href=${
+          response.response.docs[i].web_url
+        }>Read more.</a>
+                    </div>
+                    <div class="card-action">
+                        <a id='${
+                          response.response.docs[i].headline.main
+                        }' class='cardDeleteButton'>Remove</a>
+                    </div>
+                </div>
+                <!--Card end-->
+            </div>
+        `);
+      }
+      var user = firebase.auth().currentUser.uid;
+      console.log(user);
+
+      // database.ref(`/${user}/news/`).update({
+      //     [response.name]: response.name
+      // });
+    }
+  });
+}
+
+//EVENT LISTENERS########################################################################
+//#######################################################################################
+
+$(document).on("click", "#newsGrabButton", function() {
+  event.preventDefault();
+  topic = $("#searchTerm")
+    .val()
+    .toUpperCase();
+  console.log(topic);
+  newsSearch(topic);
+  $("#queryNewsForm").trigger("reset");
 });
 
-function newsApp(news) {
-  var newsCard = "";
-  var latestNews = news.articles;
+$(document).on("submit", "#searchNewsForm", function() {
+  mostView = false;
+  page = 0;
+  event.preventDefault();
+  enteredValue = $("#newsToSearch")
+    .val()
+    .toUpperCase();
+  newsSearch(enteredValue);
+  $("#searchNewsForm").trigger("reset");
+});
 
-  for (var i in latestNews) {
-    newsCard = $("#locationForCards").append(`
-      <div id='${latestNews[i].title}-card' class="col s12 m6">
-          <!--Card start-->
-          <div class="card newz">
-              <div class="card-content>
-                  <h5 class="card-title new2"><strong>${
-                    latestNews[i].title
-                  }</strong></h5>
-                  <p>Description: ${latestNews[i].description}</p>
-                  <img src="${latestNews[i].urlToImage}" class="responsive-img">
-                  <p>Written By: ${latestNews[i].author}</p>
-                  <p>${latestNews[i].content}</p>
-                  <p>Published on: ${latestNews[i].publishedAt}</p>
-                  <br>
-                  <a href="${latestNews[i].url}" class="btn">Full Article
-    </a>
-              </div>
-              <div class="card-action">
-                  <button id='${
-                    latestNews[i].title
-                  }-remove' class='cardDeleteButton1 btn'>Remove</button>
-              </div>
-              <div class="card-action">
-                  <button id= ${
-                    latestNews[i].title
-                  }-add' class='cardBookmark btn'>Bookmark</button>
-              </div>
-          </div>
-          <!--Card end-->
-      </div>
-  `);
-    $("cardDeleteButton1").on("click", function() {
-      $("#" + latestNews[i].title + "-card").hide();
-    });
+$(document).on("click", ".cardDeleteButton", function() {
+  //     var user = firebase.auth().currentUser.uid;
+  //     database.ref(`/${user}/news/${docID}`).remove()
+  $(this)
+    .parent()
+    .parent()
+    .parent()
+    .fadeOut();
+});
+
+$(document).on("click", "#pageUp", function() {
+  if (enteredValue !== "" && mostView === false) {
+    if (page < 10) {
+      event.preventDefault();
+      page++;
+      newsSearch(enteredValue);
+    }
   }
-}
-
-function clear() {
-  $("#locationForCards").empty();
-}
-
-$("#clear-all").on("click", function() {
-  clear();
 });
+
+$(document).on("click", "#pageDown", function() {
+  if (page > 0 && mostView === false) {
+    event.preventDefault();
+    page = page - 1;
+    newsSearch(enteredValue);
+  }
+});
+
+$("#pageUp").hide();
+$("#pageDown").hide();
+mostViewed();
