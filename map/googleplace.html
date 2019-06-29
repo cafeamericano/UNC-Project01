@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <title>Dashboard</title>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="../css/globalStyle.css">
+
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!--Icons-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!--Map Styling-->
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+      height: 100%;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #description {
+      font-family: Roboto;
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    #infowindow-content .title {
+      font-weight: bold;
+    }
+
+    #infowindow-content {
+      display: none;
+    }
+
+    #map #infowindow-content {
+      display: inline;
+    }
+
+    .pac-card {
+      margin: 10px 10px 0 0;
+      border-radius: 2px 0 0 2px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      background-color: #fff;
+      font-family: Roboto;
+    }
+
+    #pac-container {
+      padding-bottom: 12px;
+      margin-right: 12px;
+    }
+
+    .pac-controls {
+      display: inline-block;
+      padding: 5px 11px;
+    }
+
+    .pac-controls label {
+      font-family: Roboto;
+      font-size: 13px;
+      font-weight: 300;
+    }
+
+    #pac-input {
+      background-color: #fff;
+      font-family: Roboto;
+      font-size: 15px;
+      font-weight: 300;
+      margin-left: 12px;
+      margin-top: 10px;
+      padding: 0 11px 0 13px;
+      text-overflow: ellipsis;
+      width: 400px;
+    }
+
+    #pac-input:focus {
+      border-color: #4d90fe;
+    }
+
+    #title {
+      color: #fff;
+      background-color: #4d90fe;
+      font-size: 25px;
+      font-weight: 500;
+      padding: 6px 12px;
+    }
+
+    #target {
+      width: 345px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!--Header-->
+  <div class="row">
+    <div class='col s12 m6'>
+      <h1 style='padding-left: 40px; font-size: 8rem; font-weight: 600'>dashboard.</h1>
+    </div>
+    <div class='col s12 m6 right-align'>
+      <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="medium material-icons"
+          style='color: rgb(0, 171, 155)'>menu</i></a>
+    </div>
+  </div>
+
+  <!--Side panel-->
+  <ul id="slide-out" class="sidenav">
+    <li><a href="#!">
+        <h4 style='font-weight: 600'>dashboard.</h4>
+      </a></li>
+    <br>
+    <li><a href="#!"><i class="material-icons">account_circle</i>
+        <div id='loggedInUserEmail'></div>
+      </a></li>
+    <li><a href="#!"><i class="material-icons">exit_to_app</i>
+        <div id='logoutButton'>Log Out</div>
+      </a></li>
+  </ul>
+
+
+  <!--Row-->
+  <div class="row">
+
+    <!--Floating navbar-->
+    <div class='col s12 m3'>
+      <div class="collection" style='border-radius: 25px; opacity: 0.8'>
+        <a href="../weather/weather.html" class="collection-item">Weather</a>
+        <a href="../stocks/stocks.html" class="collection-item">Stocks</a>
+        <a href="../currency/cryptocurrency.html" class="collection-item">Cryptocurrency</a>
+        <a href="../news/news.html" class="collection-item">News</a>
+        <a href="googleplace.html" class="collection-item active">Map</a>
+      </div>
+    </div>
+
+    <!--Main container-->
+    <div class='col s12 m9'>
+
+      <div class='row'>
+        <div class='col'>
+          <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
+          <div class="input-field inline card" id='cityAddForm'
+            style='padding: 10px; opacity: 0.8; background: black; color: white'>
+            <form id='searchPlacesForm'>
+              <label for="placesToSearch">Place Name</label>
+              <input id="placesToSearch" type="text" class="validate" style='color: white'>
+              <small>Search a location to see it on the map.</small>
+            </form>
+          </div>
+          <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
+
+        </div>
+      </div>
+
+      <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC CARDS - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
+      <div class='row' style='width: 100%; height: 500px; padding-left: 15px' id='locationForCards'>
+        <div id="map"></div>
+      </div>
+      <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC CARDS - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
+
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+
+  <script>
+    // This example adds a search box to a map, using the Google Place Autocomplete
+    // feature. People can enter geographical searches. The search box will return a
+    // pick list containing a mix of places and predicted search terms.
+
+    // This example requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+    $.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAknQmMnD8mR6yUg6RMcDL27c_pH2b5hl4 ', function (data) {
+      // get lat and long from data
+      console.log(data)
+      var lat = data.location.lat
+      var lng = data.location.lng
+      console.log(lat, lng)
+      initMap(lng, lat)
+    })
+
+    function initAutocomplete(lat, lng) {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 35.7796, lng: -78.644257 },
+        zoom: 13,
+        mapTypeId: 'roadmap'
+      });
+
+      // Create the search box and link it to the UI element.
+      var input = document.getElementById('pac-input');
+      var searchBox = new google.maps.places.SearchBox(input);
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+      // Bias the SearchBox results towards current map's viewport.
+      map.addListener('bounds_changed', function () {
+        searchBox.setBounds(map.getBounds());
+      });
+
+      var markers = [];
+      // Listen for the event fired when the user selects a prediction and retrieve
+      // more details for that place.
+      searchBox.addListener('places_changed', function () {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+          return;
+        }
+
+        // Clear out the old markers.
+        markers.forEach(function (marker) {
+          marker.setMap(null);
+        });
+        markers = [];
+
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function (place) {
+          if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
+          }
+          var icon = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+          };
+
+          // Create a marker for each place.
+          markers.push(new google.maps.Marker({
+            map: map,
+            icon: icon,
+            title: place.name,
+            position: place.geometry.location
+          }));
+
+          if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+        });
+        map.fitBounds(bounds);
+      });
+    }
+
+  </script>
+  <script>
+    //Log out
+    logoutButton.addEventListener('click', e => {
+      firebase.auth().signOut()
+      window.location.replace("../index.html");
+    })
+
+    $(document).on("keyup", "#placesToSearch", function () {
+      let googInput = $('#placesToSearch').val()
+      console.log(googInput)
+      $('#pac-input').val(googInput)
+    });
+
+    $(document).on('submit', '#searchPlacesForm', function () {
+      event.preventDefault()
+      $('#pac-input').focus()
+      setTimeout(function () {
+        $.Event("keypress", { which: 13 });
+      }, 500);
+
+      //$.Event( "keypress", { which: 13 } );
+      //$('#pac-input').trigger('submit')
+      // google.maps.event.trigger(input, 'keydown', {
+      //   keyCode: 40, // arrow down
+      // });
+    });
+
+  </script>
+
+  <!--Initialize Materialize and Firebase-->
+
+  <script>
+    //FIREBASE SETUP#########################################################################
+    //#######################################################################################
+
+    var firebaseConfig = {
+      apiKey: "AIzaSyBAFakhuIZwevHjyCyEFia2vW4j5DPOom4",
+      authDomain: "project1dashboard.firebaseapp.com",
+      databaseURL: "https://project1dashboard.firebaseio.com",
+      projectId: "project1dashboard",
+      storageBucket: "",
+      messagingSenderId: "629434949340",
+      appId: "1:629434949340:web:5e49ca8bcf7b3cda"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    //Realtime listener for authentication
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if (firebaseUser) {
+        console.log(firebaseUser)
+        $('#loggedInUserEmail').text(`${firebaseUser.email}`)
+
+
+        database.ref(`/${firebaseUser.uid}/stocks`).once('value').then(function (snapshot) {
+          let stockSymbols = Object.keys(snapshot.val())
+          for (var symbol = 0; symbol < stockSymbols.length; symbol++) {
+            stockSearch(stockSymbols[symbol])
+          }
+        });
+
+      } else {
+        console.log('Logged out.')
+        window.location.replace("../index.html");
+      }
+    })
+
+    // Reference to the database
+    var database = firebase.database();
+
+    //MATERIALIZE INITIALIZATION#############################################################
+    //#######################################################################################
+
+    M.AutoInit();
+
+  </script>
+
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAknQmMnD8mR6yUg6RMcDL27c_pH2b5hl4&libraries=places&callback=initAutocomplete"
+    async defer>
+    </script>
+
+</body>
+
+</html>

@@ -19,6 +19,9 @@
     <!--Icons-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <!-- Grab ChartsJS -->
+    <script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js'></script>
+
 </head>
 
 <body class='container-fluid'>
@@ -57,8 +60,8 @@
             <div class="collection" style='border-radius: 25px; opacity: 0.8'>
                 <a href="../weather/weather.html" class="collection-item">Weather</a>
                 <a href="../stocks/stocks.html" class="collection-item">Stocks</a>
-                <a href="../currency/cryptocurrency.html" class="collection-item">Cryptocurrency</a>
-                <a href="news.html" class="collection-item active">News</a>
+                <a href="cryptocurrency.html" class="collection-item active">Cryptocurrency</a>
+                <a href="../news/news.html" class="collection-item">News</a>
                 <a href="../map/googleplace.html" class="collection-item">Map</a>
             </div>
         </div>
@@ -69,12 +72,12 @@
             <div class='row'>
                 <div class='col'>
                     <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
-                    <div class="input-field inline card" id='cityAddForm'
+                    <div class="input-field inline card" id='cryptoAddForm'
                         style='padding: 10px; opacity: 0.8; background: black; color: white'>
-                        <form id='searchNewsForm'>
-                            <label for="newsToSearch">Topic</label>
-                            <input id="newsToSearch" type="text" class="validate" style='color: white'>
-                            <small>Search a topic to see related news articles.</small>
+                        <form id='searchCryptoForm'>
+                            <label for="cryptoToSearch">Name</label>
+                            <input id="cryptoToSearch" type="text" class="validate" style='color: white'>
+                            <small>Type in the initials of a Cryptocurrency</small>
                         </form>
                     </div>
                     <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
@@ -94,7 +97,7 @@
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC JS - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
-    <script src='news.js'></script>
+    <script src='cryptocurrency.js'></script>
     <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC JS - END &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
 
 </body>
