@@ -158,9 +158,9 @@
           <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& PAGE SPECIFIC FORM - BEGIN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  -->
           <div class="input-field inline card" id='cityAddForm'
             style='padding: 10px; opacity: 0.8; background: black; color: white'>
-            <form id='searchWeatherForm'>
-              <label for="weatherToSearch">Place Name</label>
-              <input id="weatherToSearch" type="text" class="validate" style='color: white'>
+            <form id='searchPlacesForm'>
+              <label for="placesToSearch">Place Name</label>
+              <input id="placesToSearch" type="text" class="validate" style='color: white'>
               <small>Search a location to see it on the map.</small>
             </form>
           </div>
@@ -277,13 +277,13 @@
       window.location.replace("../index.html");
     })
 
-    $(document).on("keyup", "#weatherToSearch", function () {
-      let googInput = $('#weatherToSearch').val()
+    $(document).on("keyup", "#placesToSearch", function () {
+      let googInput = $('#placesToSearch').val()
       console.log(googInput)
       $('#pac-input').val(googInput)
     });
 
-    $(document).on('submit', '#searchWeatherForm', function () {
+    $(document).on('submit', '#searchPlacesForm', function () {
       event.preventDefault()
       $('#pac-input').focus()
       setTimeout(function () {
