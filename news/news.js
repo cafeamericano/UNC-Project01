@@ -1,125 +1,292 @@
-var pageNum = 1;
+//#######################################################################################
+//###############################               #########################################
+//###############################    GLOBAL     #########################################
+//###############################               #########################################
+//#######################################################################################
+
+//FIREBASE SETUP#########################################################################
+//#######################################################################################
+
+//var firebaseConfig = {
+//apiKey: "AIzaSyBAFakhuIZwevHjyCyEFia2vW4j5DPOom4",
+//authDomain: "project1dashboard.firebaseapp.com",
+//databaseURL: "https://project1dashboard.firebaseio.com",
+//projectId: "project1dashboard",
+//storageBucket: "",
+//messagingSenderId: "629434949340",
+//appId: "1:629434949340:web:5e49ca8bcf7b3cda"
+//};
+
+// Initialize Firebase
+//firebase.initializeApp(firebaseConfig);
+
+//Realtime listener for authentication
+//firebase.auth().onAuthStateChanged(firebaseUser => {
+//if (firebaseUser) {
+//console.log(firebaseUser);
+//$("#loggedInUserEmail").text(`${firebaseUser.email}`);
+
+// database.ref(`/${firebaseUser.uid}/news`).once('value').then(function (snapshot) {
+//     let newsArr = Object.keys(snapshot.val())
+//     for (var i = 0; i < newsArr.length; i++) {
+//         newsSearch(newsArr[i])
+//     }
+// });
+//} else {
+//console.log("Logged out.");
+//window.location.replace("../index.html");
+//}
+//});
+
+// Reference to the database
+//var database = firebase.database();
+
+//MATERIALIZE INITIALIZATION#############################################################
+//#######################################################################################
+
+M.AutoInit();
+
+//EVENT LISTENERS########################################################################
+//#######################################################################################
+
+//Log out
+//logoutButton.addEventListener("click", e => {
+//firebase.auth().signOut();
+//window.location.replace("../index.html");
+//});
+
+//#######################################################################################
+//###############################               #########################################
+//############################### PAGE SPECIFIC #########################################
+//###############################               #########################################
+//#######################################################################################
+
+//FUNCTIONS##############################################################################
+//#######################################################################################
 var queryURL = "";
-var page = "";
+var page = 1;
+var limit = "";
+var pageNum = "";
 
 $("#next").on("click", function() {
-  clear();
-  pageNum++;
-  page = "page=" + pageNum + "&";
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(newsApp);
-});
-
-$("#previous").on("click", function() {
-  if (pageNum > 1) {
-    clear();
-    pageNum--;
-    page = "page=" + pageNum + "&";
+  if (page > 1) {
+    page--;
+    queryURL =
+      ("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" +
+        searchTerm +
+        "&api-key=" +
+        apiKey) &
+      ("page=" + page + "&limit=" + limit);
     $.ajax({
       url: queryURL,
-      method: "GET"
-    }).then(newsApp);
+      method: "GET",
+      dataType: "json" //Seems to workaround the CORS issue
+    }).then(function(response) {
+      for (i = 0; i < response.response.docs.length; i++) {
+        $("#locationForCards").prepend(`
+              <div id=${
+                response.response.docs[i].headline.main
+              } class="col s12 m6">
+                  <!--Card start-->
+                  <div class="card">
+                      <div class="card-content" style='height: 300px; overflow: scroll'>
+                          <span class="card-title">${
+                            response.response.docs[i].headline.main
+                          }</span>
+                          <small>Published 
+                              ${response.response.docs[i].pub_date[0]}${
+          response.response.docs[i].pub_date[1]
+        }${response.response.docs[i].pub_date[2]}${
+          response.response.docs[i].pub_date[3]
+        }${response.response.docs[i].pub_date[4]}${
+          response.response.docs[i].pub_date[5]
+        }${response.response.docs[i].pub_date[6]}${
+          response.response.docs[i].pub_date[7]
+        }${response.response.docs[i].pub_date[8]}${
+          response.response.docs[i].pub_date[9]
+        }
+                          </small>
+                          <br/>
+                          <br/>
+                          <span>${
+                            response.response.docs[i].abstract
+                          }  </span><a href=${
+          response.response.docs[i].web_url
+        }>Read more.</a>
+                      </div>
+                      <div class="card-action">
+                          <a id='${
+                            response.response.docs[i].headline.main
+                          }' class='cardDeleteButton'>Remove</a>
+                      </div>
+                  </div>
+                  <!--Card end-->
+              </div>
+          `);
+      }
+    });
   } else {
-    $("#goHere").text("<h3>You're on the first page already.</h3>");
+    var error = $("#errorDiv").append(
+      "<p>You are already on the first page</p>"
+    );
+    $("#errorDiv").show();
   }
 });
 
-$("#run-search").on("click", function(event) {
-  event.preventDefault();
-  clear();
-  query = $("#search-term")
-    .val()
-    .trim();
-  var scope = $("#scope").val();
-
-  var category = $("#category").val();
-  var categoryURL = "";
-  if (category !== "" && scope == "top-headlines") {
-    categoryURL = "category=" + $("#category").val() + "&";
-  } else {
-    categoryURL = "";
-  }
-  if (scope == "everything") {
-    categoryURL = "";
-    countryURL = "";
-  }
-  var country = $("#country").val();
-  var countryURL = "";
-  if (country !== "" && scope == "top-headlines") {
-    countryURL = "country=" + country + "&";
-  } else {
-    countryURL = "";
-  }
-  if (scope == "top-headlines") {
-    page = "";
-  } else {
-    page = "page=" + pageNum + "&";
-  }
+$("#next").on("click", function() {
+  page++;
   queryURL =
-    "https://newsapi.org/v2/" +
-    scope +
-    "?q=" +
-    query +
-    "&" +
-    countryURL +
-    categoryURL +
-    page +
-    "apiKey=d5a51f0326f74bd683a2c573c8562424";
-  console.log(queryURL);
+    ("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" +
+      searchTerm +
+      "&api-key=" +
+      apiKey) &
+    ("page=" + page + "&limit=" + limit);
   $.ajax({
     url: queryURL,
-    method: "GET"
-  }).then(newsApp);
+    method: "GET",
+    dataType: "json" //Seems to workaround the CORS issue
+  }).then(function(response) {
+    for (i = 0; i < response.response.docs.length; i++) {
+      $("#locationForCards").prepend(`
+            <div id=${
+              response.response.docs[i].headline.main
+            } class="col s12 m6">
+                <!--Card start-->
+                <div class="card">
+                    <div class="card-content" style='height: 300px; overflow: scroll'>
+                        <span class="card-title">${
+                          response.response.docs[i].headline.main
+                        }</span>
+                        <small>Published 
+                            ${response.response.docs[i].pub_date[0]}${
+        response.response.docs[i].pub_date[1]
+      }${response.response.docs[i].pub_date[2]}${
+        response.response.docs[i].pub_date[3]
+      }${response.response.docs[i].pub_date[4]}${
+        response.response.docs[i].pub_date[5]
+      }${response.response.docs[i].pub_date[6]}${
+        response.response.docs[i].pub_date[7]
+      }${response.response.docs[i].pub_date[8]}${
+        response.response.docs[i].pub_date[9]
+      }
+                        </small>
+                        <br/>
+                        <br/>
+                        <span>${
+                          response.response.docs[i].abstract
+                        }  </span><a href=${
+        response.response.docs[i].web_url
+      }>Read more.</a>
+                    </div>
+                    <div class="card-action">
+                        <a id='${
+                          response.response.docs[i].headline.main
+                        }' class='cardDeleteButton'>Remove</a>
+                    </div>
+                </div>
+                <!--Card end-->
+            </div>
+        `);
+    }
+  });
 });
 
-function newsApp(news) {
-  var newsCard = "";
-  var latestNews = news.articles;
+function newsSearch(searchTerm) {
+  apiKey = "AXZRvJ0jreBWRHyR70GN1GaADEpWHywa";
+  page = 1;
+  limit = 10;
+  queryURL =
+    ("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" +
+      searchTerm +
+      "&api-key=" +
+      apiKey) &
+    ("page=" + page + "&limit=" + limit);
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+    dataType: "json" //Seems to workaround the CORS issue
+  }).then(function(response) {
+    console.log(response);
+    if (response.symbol === "hey") {
+      M.toast({
+        html: "It appears that you entered an invalid ticker symbol."
+      });
+    } else {
+      for (i = 0; i < response.response.docs.length; i++) {
+        $("#locationForCards").prepend(`
+            <div id=${
+              response.response.docs[i].headline.main
+            } class="col s12 m6">
+                <!--Card start-->
+                <div class="card">
+                    <div class="card-content" style='height: 300px; overflow: scroll'>
+                        <span class="card-title">${
+                          response.response.docs[i].headline.main
+                        }</span>
+                        <small>Published 
+                            ${response.response.docs[i].pub_date[0]}${
+          response.response.docs[i].pub_date[1]
+        }${response.response.docs[i].pub_date[2]}${
+          response.response.docs[i].pub_date[3]
+        }${response.response.docs[i].pub_date[4]}${
+          response.response.docs[i].pub_date[5]
+        }${response.response.docs[i].pub_date[6]}${
+          response.response.docs[i].pub_date[7]
+        }${response.response.docs[i].pub_date[8]}${
+          response.response.docs[i].pub_date[9]
+        }
+                        </small>
+                        <br/>
+                        <br/>
+                        <span>${
+                          response.response.docs[i].abstract
+                        }  </span><a href=${
+          response.response.docs[i].web_url
+        }>Read more.</a>
+                    </div>
+                    <div class="card-action">
+                        <a id='${
+                          response.response.docs[i].headline.main
+                        }' class='cardDeleteButton'>Remove</a>
+                    </div>
+                </div>
+                <!--Card end-->
+            </div>
+        `);
+      }
+      //var user = firebase.auth().currentUser.uid;
+      //console.log(user);
 
-  for (var i in latestNews) {
-    newsCard = $("#locationForCards").append(`
-      <div id='${latestNews[i].title}-card' class="col s12 m6">
-          <!--Card start-->
-          <div class="card newz">
-              <div class="card-content>
-                  <h5 class="card-title new2"><strong>${
-                    latestNews[i].title
-                  }</strong></h5>
-                  <p>Description: ${latestNews[i].description}</p>
-                  <img src="${latestNews[i].urlToImage}" class="responsive-img">
-                  <p>Written By: ${latestNews[i].author}</p>
-                  <p>${latestNews[i].content}</p>
-                  <p>Published on: ${latestNews[i].publishedAt}</p>
-                  <br>
-                  <a href="${latestNews[i].url}" class="btn">Full Article
-    </a>
-              </div>
-              <div class="card-action">
-                  <button id='${
-                    latestNews[i].title
-                  }-remove' class='cardDeleteButton1 btn'>Remove</button>
-              </div>
-              <div class="card-action">
-                  <button id= ${
-                    latestNews[i].title
-                  }-add' class='cardBookmark btn'>Bookmark</button>
-              </div>
-          </div>
-          <!--Card end-->
-      </div>
-  `);
-    $("cardDeleteButton1").on("click", function() {
-      $("#" + latestNews[i].title + "-card").hide();
-    });
-  }
+      // database.ref(`/${user}/news/`).update({
+      //     [response.name]: response.name
+      // });
+    }
+  });
 }
 
-function clear() {
-  $("#locationForCards").empty();
-}
+//EVENT LISTENERS########################################################################
+//#######################################################################################
 
-$("#clear-all").on("click", function() {
-  clear();
+$(document).on("click", "#newsGrabButton", function() {
+  event.preventDefault();
+  let topic = $("#searchTerm")
+    .val()
+    .toUpperCase();
+  console.log(topic);
+  newsSearch(topic);
+  $("#queryNewsForm").trigger("reset");
 });
+
+$(document).on("submit", "#searchNewsForm", function() {
+  event.preventDefault();
+  let enteredValue = $("#newsToSearch").val();
+  newsSearch(enteredValue.toUpperCase());
+  $("#searchNewsForm").trigger("reset");
+});
+
+// $(document).on("click", ".cardDeleteButton", function () {
+//     let docID = ($(this).attr('id'))
+//     var user = firebase.auth().currentUser.uid;
+//     database.ref(`/${user}/news/${docID}`).remove()
+//     $(this).parent().parent().parent().fadeOut()
+// })
