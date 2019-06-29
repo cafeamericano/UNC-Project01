@@ -25,13 +25,6 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
     console.log(firebaseUser);
     $("#loggedInUserEmail").text(`${firebaseUser.email}`);
-
-    // database.ref(`/${firebaseUser.uid}/news`).once('value').then(function (snapshot) {
-    //     let newsArr = Object.keys(snapshot.val())
-    //     for (var i = 0; i < newsArr.length; i++) {
-    //         newsSearch(newsArr[i])
-    //     }
-    // });
   } else {
     console.log("Logged out.");
     window.location.replace("../index.html");
@@ -121,10 +114,6 @@ function mostViewed() {
       }
       var user = firebase.auth().currentUser.uid;
       console.log(user);
-
-      // database.ref(`/${user}/news/`).update({
-      //     [response.name]: response.name
-      // });
     }
   });
 }
@@ -230,8 +219,6 @@ $(document).on("submit", "#searchNewsForm", function() {
 });
 
 $(document).on("click", ".cardDeleteButton", function() {
-  //     var user = firebase.auth().currentUser.uid;
-  //     database.ref(`/${user}/news/${docID}`).remove()
   $(this)
     .parent()
     .parent()
