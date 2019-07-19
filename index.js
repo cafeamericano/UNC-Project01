@@ -90,3 +90,15 @@ signUpButton.addEventListener('click', e => {
         //.then(user => console.log(user))
         .catch(e => console.log(e.message));
 })
+
+//Continue as guest
+guestButton.addEventListener('click', e => {
+    const email = 'guest@email.com';
+    const pass = 'guest1';
+    const auth = firebase.auth();
+
+    const promise = auth.signInWithEmailAndPassword(email, pass);;
+    promise
+        //.then(user => console.log(user))
+        .catch(e => console.log(e.message));
+})
