@@ -23,11 +23,11 @@ If the user has searched the weather status of a city during a previous session,
 
 ### Stocks
 
-![ img ](/demoMedia/stocksCards.png)
+![ img ](/demoMedia/stockCards.png)
 
 If the user has searched the value of a company's stock during a previous session, cards for these stocks will render automatically on the screen. To add a new stock, the user may enter the ticker code in the search box and press enter. A card displaying current stock information will be added to the screen. 
 
-![ img ](/demoMedia/stocksGraph.png)
+![ img ](/demoMedia/stockGraph.png)
 
 To view historical information, the user may click the icon in the top-right corner of the card. A graph will display showing changes in the stock's valuation over the past 5 years. Specific values my be viewed by hovering over the data points on the chart.
 
